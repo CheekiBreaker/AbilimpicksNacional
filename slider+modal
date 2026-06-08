@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+    <style>
+      .slider {
+        width: 500px;
+        height: 300px;
+        position: relative;
+        overflow: hidden;
+      }
+      .slides {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease-in-out;
+      }
+      .slide {
+        min-width: 100%;
+        height: 100%;
+      }
+
+      .modal {
+       display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+      }
+      .myModal{
+           background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider" id="slider">
+      <div class="slides" id="track">
+        <div class="slide" style="background-color: red"></div>
+        <div class="slide" style="background-color: green"></div>
+        <div class="slide" style="background-color: blue"></div>
+      </div>
+    </div>
+
+    <button class="btn">addadad</button>
+    <div class="modal">
+      <div class="myModal">
+        <div style="background-color: red"></div>
+      </div>
+    </div>
+
+    <script>
+      const btn = document.querySelector(".btn");
+      const modal = document.querySelector(".modal");
+      btn.addEventListener("click", () => {
+        modal.style.display = "block";
+      });
+
+      window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      const track = document.getElementById("track");
+      const slider = document.getElementById("slider");
+      const slides = track.querySelectorAll(".slide");
+      const total = slides.length;
+      let timer,
+        current = 0;
+
+      function goTo(index) {
+        current = index;
+        track.style.transform = `translateX(${-current * 100}%)`;
+      }
+      function next() {
+        goTo((current + 1) % total);
+      }
+      function start() {
+        timer = setInterval(next, 2000);
+      }
+      function stop() {
+        clearInterval(timer);
+      }
+      slider.addEventListener("mouseenter", stop);
+      slider.addEventListener("mouseleave", start);
+      start();
+    </script>
+  </body>
+</html>
